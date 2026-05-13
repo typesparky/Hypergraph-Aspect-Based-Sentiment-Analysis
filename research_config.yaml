@@ -1,0 +1,38 @@
+# Research Configuration for Thesis Experiments
+# Baseline: Standard Graphormer + L_H Laplacian Bias + LCR-Rot Fallback
+
+experiment:
+  name: "ht_hgnn_baseline_run"
+  baseline:
+    name: "HT-HGNN_Baseline"
+    structural_bias: "L_H_Standard"
+    fallback: "LCR-Rot"
+  
+  # Autoresearch Sweep Space: New ideas from NeurIPS 2025 corpus
+  sweeps:
+    - name: "HAMP_Dynamics_Swap"
+      target: "structural_bias"
+      value: "HAMP_Particle_System"
+      description: "Test if 2nd-order particle dynamics stabilize training"
+    
+    - name: "ZEN_Robustness_Swap"
+      target: "fallback"
+      value: "ZEN_Linear_HNN"
+      description: "Test if ZEN fallback is more robust than LCR-Rot"
+      
+    - name: "Data_Augmentation_Mixup"
+      target: "augmentation"
+      value: "HyperMixup"
+      description: "Inject topology-aware augmentation"
+
+# Hyperparameters
+training:
+  learning_rate: 1e-4
+  batch_size: 32
+  epochs: 100
+  dropout: 0.2
+
+# Pathing
+paths:
+  data_dir: "../data/"
+  results_dir: "../results/"
